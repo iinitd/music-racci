@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    div
+        div.search
+            form(method="get",action="/search/composer")
+                span 搜作曲人
+                input(type="text", name="text", value="#{query}")
+                button(type="submit") 搜索
+            div.suggest
+                a(href="/search/composer?text=周杰伦") 周杰伦
+                a(href="/search/composer?text=蔡健雅") 蔡健雅
+                a(href="/search/composer?text=徐佳莹") 徐佳莹
+        include ./result_list

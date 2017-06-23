@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    div
+        div.search
+            form(method="get",action="/search/")
+                span 自由搜索
+                input(type="text", name="text", value="#{query}")
+                button(type="submit") 搜索
+            div.suggest
+                a(href="/search?text=周杰伦") 周杰伦
+                a(href="/search?text=流星雨") 流星雨
+                a(href="/search?text=Fly My Way") Fly My Way
+        include ./result_list

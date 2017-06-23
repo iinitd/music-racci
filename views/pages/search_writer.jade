@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    div
+        div.search
+            form(method="get",action="/search/writer")
+                    span 搜作词人
+                    input(type="text", name="text", value="#{query}")
+                    button(type="submit") 搜索
+            div.suggest
+                a(href="/search/writer?text=林夕") 林夕
+                a(href="/search/writer?text=黄伟文") 黄伟文
+                a(href="/search/writer?text=阿信") 阿信
+        include ./result_list

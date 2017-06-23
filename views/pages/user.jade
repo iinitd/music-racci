@@ -1,0 +1,9 @@
+extends ../layout
+
+block content
+	div.welcome
+		h4 Hi, #{user.username}
+	div.history
+		h4 浏览历史
+		each u in favorite
+			include ./album_display

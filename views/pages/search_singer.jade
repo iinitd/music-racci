@@ -1,0 +1,14 @@
+extends ../layout
+
+block content
+    div
+        div.search
+            form(method="get",action="/search/singer")
+                span 搜歌手
+                input(type="text", name="text", value="#{query}")
+                button(type="submit") 搜索
+            div.suggest
+                a(href="/search/singer?text=蔡依林") 蔡依林
+                a(href="/search/singer?text=五月天") 五月天
+                a(href="/search/singer?text=徐佳莹") 徐佳莹
+        include ./result_list

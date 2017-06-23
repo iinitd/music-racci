@@ -1,0 +1,10 @@
+extends ../layout
+
+block content
+	-if(user)
+		div.welcome
+			h4 Hi, #{user.username}
+	div.index
+		h4 最近推荐
+		each u in article
+			include ./album_display

@@ -1,0 +1,39 @@
+extends ../layout
+
+block content
+    div.song_detail
+        div.text-right
+            - if (user)
+                a.small(href="/edit/#{article._id}") 编辑
+                a 
+                a.small(href="/remove/#{article._id}") 删除
+        div.title
+            h4 #{article.title}
+        div.player
+            audio(src="#{article.ourl}" controls="controls")
+        div.meta
+            -if(article.url)
+                a.xiami(href="#{article.url}") 虾米链接
+                span | 
+            -if(article.singer)
+                span.meta_key 歌手
+                a.meta_value(href="/search/singer/?text=#{article.singer}") #{article.singer}
+            -if(article.songwritter)
+                span.meta_key 作词
+                a.meta_value(href="/search/writer/?text=#{article.songwritter}") #{article.songwritter}
+            -if(article.composer)
+                span.meta_key 作曲
+                a.meta_value(href="/search/composer/?text=#{article.composer}") #{article.composer}
+            -if(article.album)
+                span.meta_key 所属专辑
+                a.meta_value(href="/search/?text=#{article.album}") #{article.album}
+            -if(article.tag)
+                span.meta_key 标签
+                a.meta_value(href="#{article.url}") #{article.tag}
+            -if(article.commit_count)
+                span.meta_key 评论数
+                a.meta_value(href="#{article.url}") #{article.commit_count}
+            
+        div.lyrics
+            span !{lyrics}
+                        

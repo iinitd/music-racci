@@ -1,0 +1,19 @@
+div.myheader
+	div.brand
+		h1 
+			a(href="/") seagull
+		span  yet another search engine
+	div
+		ul.mynav
+			li: a(href="/") 首页
+			li: a(href="/search") 自由搜
+			li: a(href="/search/singer") 搜歌手
+			li: a(href="/search/writer") 搜作词
+			li: a(href="/search/composer") 搜作曲
+			li: a 
+			-if(user)
+				li: a(href="/user") 用户
+				li: a(href="/user/logout") 退出
+			-else
+				li: a(href="/user/reg") 注册
+				li: a(href="/user/login") 登陆

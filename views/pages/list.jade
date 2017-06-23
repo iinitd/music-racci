@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+	.container
+		.row
+			.col-md-8
+					each u in article
+						div
+							a(href="/p/#{u.id}")
+								h4 #{u.title}
+							p #{u.content}
+						hr
+			.col-md-4
+					span 
+		.row
+			.col-md-12
+				nav
+					ul.pagination
+						- for (var i = 1; i < pageNum+1; ++i) {
+							li: a(href="/list/#{i}") #{i} 
+						- }

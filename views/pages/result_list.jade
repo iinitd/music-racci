@@ -1,0 +1,19 @@
+div.result_number
+    span 久等了，我们为你准备了 #{length} 条结果
+div
+    each u in article
+        div.result_list
+            a(href="/song/#{u.doc_id}/?from=#{query}")
+                h4 #{u.title}
+            div.meta   
+                -if(u.singer)
+                    span.meta_key 歌手
+                    span.meta_value #{u.singer} 
+                -if(u.songwritter)
+                    span.meta_key 作词
+                    span.meta_value #{u.songwritter} 
+                -if(u.composer)
+                    span.meta_key 作曲
+                    span.meta_value #{u.composer} 
+            p.lyrics #{u.lyrics}
+        hr
