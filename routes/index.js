@@ -7,23 +7,23 @@ var showdown = require('showdown');
 var session = require('express-session');
 var fs = require("fs");
 var _ = require('underscore');
-var mango = require('mango')
+var racci = require('racci')
 var systemdb = require('./systemdb')
 
-//mongoose.connect('mongodb://m:m@ds127928.mlab.com:27928/mustaxu');
-mongoose.connect('mongodb://127.0.0.1/test');
 
-// var parser = mango.Parser.init("full",docs,"doc_id",["lyrics","singer","composer",'songwritter','album'],[1,20,3,2,1])
+var docs = JSON.parse(fs.readFileSync("./docs/docs.json"))
 
-// var idx_singer = mango.Parser.field_idx("singer",docs,"doc_id",["singer"],"commit_count")
+racci.Parser.init(docs, "doc_id", ["lyrics", "singer", "composer", 'songwritter', 'album'], [1, 20, 3, 2, 1])
 
-// var idx_composer = mango.Parser.field_idx("composer",docs,"doc_id",["composer"],"commit_count")
+racci.Parser.simple("singer", "doc_id", "singer")
 
-// var idx_writer = mango.Parser.field_idx("writer",docs,"doc_id",["songwritter"],"commit_count")
+racci.Parser.simple("composer", "doc_id", "composer")
 
-// console.log(mango.db.get("full_idx"))
+racci.Parser.simple("writer", "doc_id", "songwritter")
 
-var search = new mango.Search()
+
+
+var search = new racci.Search()
 
 
 router.use(bodyParser.json());
@@ -53,10 +53,10 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res, next) {
 
     //res.send("hh")
-    article = search.offline.query("流星雨", "large")
+    article = search.full("流星雨")
     if (req.session.user) {
         res.render('index', {
-            title: 'Seagull',
+            title: 'Miqi',
             username: req.session.user.username,
             article: article.slice(0, 40),
             login: true
@@ -65,7 +65,7 @@ router.get('/', function(req, res, next) {
     } else {
         console.log('not login')
         res.render('index', {
-            title: 'Seagull',
+            title: 'Miqi',
             username: '游客',
             article: article.slice(0, 40)
         })
@@ -89,7 +89,7 @@ router.get('/song/:id', function(req, res) {
         console.log("this", systemdb.get(req.session.user.username))
     }
 
-    var article = mango.db.get("large_docs")[id]
+    var article = racci.db.get("_docs")[id]
 
     res.render('song', {
         user: req.session.user,

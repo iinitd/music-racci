@@ -7,21 +7,21 @@ var showdown = require('showdown');
 var session = require('express-session');
 var fs = require("fs");
 var _ = require('underscore');
-var mango = require('mango')
+var racci = require('racci')
 
 //mongoose.connect('mongodb://m:m@ds127928.mlab.com:27928/mustaxu');
 
-// var parser = mango.Parser.init("full",docs,"doc_id",["lyrics","singer","composer",'songwritter','album'],[1,20,3,2,1])
+// var parser = racci.Parser.init("full",docs,"doc_id",["lyrics","singer","composer",'songwritter','album'],[1,20,3,2,1])
 
-// var idx_singer = mango.Parser.field_idx("singer",docs,"doc_id",["singer"],"commit_count")
+// var idx_singer = racci.Parser.field_idx("singer",docs,"doc_id",["singer"],"commit_count")
 
-// var idx_composer = mango.Parser.field_idx("composer",docs,"doc_id",["composer"],"commit_count")
+// var idx_composer = racci.Parser.field_idx("composer",docs,"doc_id",["composer"],"commit_count")
 
-// var idx_writer = mango.Parser.field_idx("writer",docs,"doc_id",["songwritter"],"commit_count")
+// var idx_writer = racci.Parser.field_idx("writer",docs,"doc_id",["songwritter"],"commit_count")
 
-// console.log(mango.db.get("full_idx"))
+// console.log(racci.db.get("full_idx"))
 
-var search = new mango.Search()
+var search = new racci.Search()
 
 router.use(bodyParser.json());
 router.use(bodyParser.urlencoded());
@@ -47,9 +47,9 @@ router.use(function(req, res, next) {
 
 router.get('/', function(req, res) {
 
-    var query = req.query.text || "七里香";
+    var query = req.query.text || "流星雨";
 
-    article = search.offline.query(query, "large")
+    article = search.full(query)
 
     if (!article || !article[0]) res.redirect('/404')
 
@@ -66,7 +66,7 @@ router.get('/', function(req, res) {
         }
 
         res.render('search_list', {
-            title: query + " - 自由搜 - Seagull",
+            title: query + " - 自由搜 - Miqi",
             username: req.session.user.username,
             article: sorted.length > 0 ? sorted : article,
             length: article.length,
@@ -77,7 +77,7 @@ router.get('/', function(req, res) {
     } else {
         console.log('not login')
         res.render('search_list', {
-            title: query + " - 自由搜 - Seagull",
+            title: query + " - 自由搜 - Miqi",
             username: '游客',
             article: article,
             length: article.length,
@@ -101,16 +101,16 @@ router.get('/404/', function(req, res) {
 
 router.get('/singer/', function(req, res) {
 
-    var query = req.query.text || "五月天";
+    var query = req.query.text || "HUSH";
 
-    article = search.offline.query_in_field(query, "singer", "singer")
+    article = search.simple(query, "singer", "commit_count")
 
     if (!article[0]) res.redirect('/404')
 
 
     if (req.session.user) {
         res.render('search_singer', {
-            title: query + " - 搜歌手 - Seagull",
+            title: query + " - 搜歌手 - Miqi",
             username: req.session.user.username,
             article: article.sort(function(a, b) {
                 var sa = req.session.user.favorite[a.doc_id] || 0
@@ -125,7 +125,7 @@ router.get('/singer/', function(req, res) {
     } else {
         console.log('not login')
         res.render('search_singer', {
-            title: query + " - 搜歌手 - Seagull",
+            title: query + " - 搜歌手 - Miqi",
             username: '游客',
             article: article,
             length: article.length,
@@ -141,14 +141,14 @@ router.get('/writer/', function(req, res) {
 
     var query = req.query.text || "方文山";
 
-    article = search.offline.query_in_field(query, "writer", "writer")
+    article = search.simple(query, "writer", "commit_count")
 
     if (!article[0]) res.redirect('/404')
 
 
     if (req.session.user) {
         res.render('search_writer', {
-            title: query + " - 搜作词 - Seagull",
+            title: query + " - 搜作词 - Miqi",
             username: req.session.user.username,
             article: article.sort(function(a, b) {
                 var sa = req.session.user.favorite[a.doc_id] || 0
@@ -163,7 +163,7 @@ router.get('/writer/', function(req, res) {
     } else {
         console.log('not login')
         res.render('search_writer', {
-            title: query + " - 搜作词 - Seagull",
+            title: query + " - 搜作词 - Miqi",
             username: '游客',
             article: article,
             length: article.length,
@@ -179,14 +179,14 @@ router.get('/composer/', function(req, res) {
 
     var query = req.query.text || "周杰伦";
 
-    article = search.offline.query_in_field(query, "composer", "composer")
+    article = search.simple(query, "composer", "commit_count")
 
     if (!article[0]) res.redirect('/404')
 
 
     if (req.session.user) {
         res.render('search_composer', {
-            title: query + " - 搜作曲 - Seagull",
+            title: query + " - 搜作曲 - Miqi",
             username: req.session.user.username,
             article: article.sort(function(a, b) {
                 var sa = req.session.user.favorite[a.doc_id] || 0
@@ -201,7 +201,7 @@ router.get('/composer/', function(req, res) {
     } else {
         console.log('not login')
         res.render('search_composer', {
-            title: query + " - 搜作曲 - Seagull",
+            title: query + " - 搜作曲 - Miqi",
             username: '游客',
             article: article,
             length: article.length,

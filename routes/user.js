@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var showdown = require('showdown');
 var _ = require('underscore');
-var mango = require('mango')
+var racci = require('racci')
 var systemdb = require('./systemdb')
 
 
@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
 
     if (req.session.user) {
 
-        var docs = mango.db.get("large_docs")
+        var docs = racci.db.get("_docs")
 
         var favorites = []
 
