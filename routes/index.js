@@ -13,13 +13,15 @@ var systemdb = require('./systemdb')
 
 var docs = JSON.parse(fs.readFileSync("./docs/docs.json"))
 
-racci.Parser.init(docs, "doc_id", ["lyrics", "singer", "composer", 'songwritter', 'album'], [1, 20, 3, 2, 1])
+racci.Parser.import(docs)
 
-racci.Parser.simple("singer", "doc_id", "singer")
+racci.Parser.init("full", ["lyrics", "singer", "composer", 'songwritter', 'album'], [1, 20, 3, 2, 1])
 
-racci.Parser.simple("composer", "doc_id", "composer")
+racci.Parser.init("singer", "singer", "commit_count")
 
-racci.Parser.simple("writer", "doc_id", "songwritter")
+racci.Parser.init("composer", "composer", "commit_count")
+
+racci.Parser.init("writer", "songwritter", "commit_count")
 
 
 
@@ -53,7 +55,7 @@ router.use(function(req, res, next) {
 router.get('/', function(req, res, next) {
 
     //res.send("hh")
-    article = search.full("流星雨")
+    article = racci.Search.search("full", "流星雨", 1, 0)
     if (req.session.user) {
         res.render('index', {
             title: 'Miqi',

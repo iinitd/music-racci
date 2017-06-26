@@ -49,7 +49,7 @@ router.get('/', function(req, res) {
 
     var query = req.query.text || "流星雨";
 
-    article = search.full(query)
+    article = racci.Search.search("full", query, 1, 0)
 
     if (!article || !article[0]) res.redirect('/404')
 
@@ -103,7 +103,7 @@ router.get('/singer/', function(req, res) {
 
     var query = req.query.text || "HUSH";
 
-    article = search.simple(query, "singer", "commit_count")
+    article = racci.Search.search("singer", query, 1, 0)
 
     if (!article[0]) res.redirect('/404')
 
@@ -141,7 +141,7 @@ router.get('/writer/', function(req, res) {
 
     var query = req.query.text || "方文山";
 
-    article = search.simple(query, "writer", "commit_count")
+    article = racci.Search.search("writer", query, 1, 0)
 
     if (!article[0]) res.redirect('/404')
 
@@ -179,7 +179,7 @@ router.get('/composer/', function(req, res) {
 
     var query = req.query.text || "周杰伦";
 
-    article = search.simple(query, "composer", "commit_count")
+    article = racci.Search.search("composer", query, 1, 0)
 
     if (!article[0]) res.redirect('/404')
 
